@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrayerLock - Screen time control for prayer focus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#FDFBF7',
+                        'brand-dark': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap');
+        
+        body {
+            background-color: #FDFBF7;
+        }
+        
+        /* Smooth transition for menu */
+        #mobile-menu {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .lang-container:hover .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative font-sans text-gray-800">
+
+    <!-- Floating Navigation Container -->
+    <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        
+        <!-- Desktop/Closed Mobile Navbar -->
+        <nav id="main-nav" class="bg-white/90 backdrop-blur-sm rounded-full shadow-lg px-6 py-3 flex items-center justify-between w-full max-w-6xl transition-all duration-300">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <span class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</span>
+            </div>
+
+            <!-- Role Toggle -->
+            <div class="hidden md:flex items-center gap-4 text-sm font-medium ml-8">
+                <button id="btn-for-users" onclick="switchRole('users')" class="text-black border-b-2 border-black pb-0.5 transition-colors" data-i18n="nav.for_users">For Users</button>
+                <button id="btn-for-hosts" onclick="switchRole('hosts')" class="text-gray-400 hover:text-gray-600 transition-colors pb-0.5" data-i18n="nav.for_hosts">For Hosts</button>
+            </div>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
+                <a href="community.html" class="hover:text-black transition-colors" data-i18n="nav.community">Community</a>
+                <a href="#pricing" class="hover:text-black transition-colors" data-i18n="nav.pricing">Pricing</a>
+                <a href="mailto:prcrecluse@gmail.com" class="hover:text-black transition-colors" data-i18n="nav.support">Support</a>
+            </div>
+
+            <!-- Right Side Actions -->
+            <div class="flex items-center gap-4">
+                <!-- Language Switcher (Desktop) -->
+                <div class="relative lang-container hidden md:block">
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-black font-medium focus:outline-none">
+                        <span id="current-lang">EN</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    </button>
+                    <div class="absolute top-full right-0 mt-2 w-24 bg-white rounded-xl shadow-xl py-2 lang-dropdown">
+                        <button onclick="changeLanguage('en')" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">English</button>
+                        <button onclick="changeLanguage('zh')" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">中文</button>
+                    </div>
+                </div>
+
+                <!-- Download Button (Desktop) -->
+                <a href="https://apps.apple.com/us/app/%E7%BA%BF%E4%B8%8B%E5%92%96offliner-%E7%BA%A6%E6%9D%AF%E5%92%96%E5%95%A1-%E5%8F%91%E7%8E%B0%E8%BA%AB%E8%BE%B9%E4%BA%BA-%E6%B4%BB%E5%8A%A8-%E4%BA%A4%E6%9C%8B%E5%8F%8B/id6743653417?l=zh-Hans-CN" target="_blank" class="hidden md:flex items-center gap-2 bg-[#1A1A1A] text-white px-5 py-2.5 rounded-full hover:bg-black transition-colors font-medium">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span data-i18n="nav.download">Download app</span>
+                </a>
+
+                <!-- Hamburger Menu (Mobile) -->
+                <button id="menu-btn" class="md:hidden p-2 text-black focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Overlay (Hidden by default) -->
+        <!-- Resembles the card in the screenshot -->
+        <div id="mobile-menu" class="hidden absolute top-0 w-full max-w-6xl bg-white rounded-[2rem] shadow-xl p-6 flex-col">
+            <div class="flex items-center justify-between mb-8">
+                <span class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</span>
+                <button id="close-btn" class="p-2 text-gray-500 hover:text-black focus:outline-none">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-col space-y-6 text-xl font-medium text-gray-600 pl-2">
+                <a href="community.html" class="hover:text-black transition-colors mobile-link" data-i18n="nav.community">Community</a>
+                <a href="#pricing" class="hover:text-black transition-colors mobile-link" data-i18n="nav.pricing">Pricing</a>
+                <a href="mailto:prcrecluse@gmail.com" class="hover:text-black transition-colors mobile-link" data-i18n="nav.support">Support</a>
+                
+                <!-- Mobile Language Switcher -->
+                <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+                    <button onclick="changeLanguage('en')" class="text-sm font-bold px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200">English</button>
+                    <button onclick="changeLanguage('zh')" class="text-sm font-bold px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200">中文</button>
+                </div>
+            </div>
+
+            <div class="mt-10 mb-2">
+                <a href="https://apps.apple.com/us/app/%E7%BA%BF%E4%B8%8B%E5%92%96offliner-%E7%BA%A6%E6%9D%AF%E5%92%96%E5%95%A1-%E5%8F%91%E7%8E%B0%E8%BA%AB%E8%BE%B9%E4%BA%BA-%E6%B4%BB%E5%8A%A8-%E4%BA%A4%E6%9C%8B%E5%8F%8B/id6743653417?l=zh-Hans-CN" target="_blank" class="flex items-center justify-center gap-2 bg-[#1A1A1A] text-white px-6 py-4 rounded-full hover:bg-black transition-colors font-medium w-full sm:w-auto self-start">
+                    <i data-lucide="smartphone" class="w-5 h-5"></i>
+                    <span data-i18n="nav.download">Download app</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Placeholder -->
+    <main class="pt-32 px-6 max-w-7xl mx-auto">
+        
+        <!-- FOR USERS CONTENT -->
+        <div id="for-users-content" class="transition-opacity duration-300">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12 mb-20">
+            <!-- Left Content: Text & Download -->
+            <div class="w-full md:w-[40%] text-left space-y-8 z-10 relative">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-black" data-i18n="hero.title">
+                    On the map<br>meet interesting souls
+                </h1>
+                <p class="text-xl text-gray-600 max-w-xl" data-i18n="hero.subtitle">
+                    Find nearby activities, meet friends, and enjoy authentic offline social interactions.
+                </p>
+                
+                <!-- App Store Button -->
+                <a href="https://apps.apple.com/us/app/%E7%BA%BF%E4%B8%8B%E5%92%96offliner-%E7%BA%A6%E6%9D%AF%E5%92%96%E5%95%A1-%E5%8F%91%E7%8E%B0%E8%BA%AB%E8%BE%B9%E4%BA%BA-%E6%B4%BB%E5%8A%A8-%E4%BA%A4%E6%9C%8B%E5%8F%8B/id6743653417?l=zh-Hans-CN" 
+                   target="_blank" 
+                   class="inline-block transition-transform hover:scale-105">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1319760000" 
+                         alt="Download on the App Store" 
+                         style="height: 60px; width: auto;">
+                </a>
+            </div>
+
+            <!-- Right Content: App Screenshots -->
+            <div class="w-full md:w-[60%] flex justify-center md:justify-end relative h-[500px] md:h-auto items-center">
+                <div class="relative w-full h-full flex justify-center items-center">
+                    <img src="assets2/英文2-在地图上发现有趣灵魂 1.png" alt="Map View" class="absolute left-[5%] w-[40%] h-auto object-contain transform translate-y-12 scale-[3.2] -rotate-[7deg] z-10 origin-center transition-transform hover:scale-[3.3] duration-500">
+                    <img src="assets2/英文1-和global friends聊天 1.png" alt="Chat View" class="absolute right-[5%] w-[40%] h-auto object-contain transform -translate-y-12 scale-[3.2] rotate-[7deg] z-0 origin-center transition-transform hover:scale-[3.3] duration-500">
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Demo -->
+        <div class="max-w-4xl mx-auto mb-20">
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-black aspect-video">
+                <video controls class="w-full h-full object-cover">
+                    <source src="assets2/App界面展示.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-16 text-left">
+            <h2 class="text-4xl font-bold text-center mb-12" data-i18n="pricing.title">Pricing Plans</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- Monthly Plan -->
+                <div class="bg-gray-100 rounded-[2rem] p-8 flex flex-col justify-center h-full hover:shadow-lg transition-shadow">
+                    <div class="flex items-baseline gap-1 mb-2">
+                        <span class="text-5xl font-bold tracking-tight" id="price-monthly">$4.99</span>
+                        <span class="text-lg text-gray-600" data-i18n="pricing.monthly">/Monthly</span>
+                    </div>
+                    <p class="text-gray-500 font-medium" data-i18n="pricing.monthly_desc">Most Flexible, Perfect for Short trip</p>
+                </div>
+
+                <!-- Annual Plan -->
+                <div class="bg-[#FFF8E6] border-2 border-[#FFD700] rounded-[2rem] p-8 flex flex-col justify-center h-full relative shadow-lg transform md:-translate-y-4">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#FFD700] text-black px-4 py-1 rounded-full text-sm font-bold shadow-sm" data-i18n="pricing.best_value">
+                        BEST VALUE
+                    </div>
+                    <div class="flex items-baseline gap-1 mb-2">
+                        <span class="text-5xl font-bold tracking-tight" id="price-annual">$14.99</span>
+                        <span class="text-lg text-gray-600" data-i18n="pricing.annually">/Annually</span>
+                    </div>
+                    <p class="text-gray-500 font-medium" id="price-annual-desc">Best Value, Only $1.25/Month</p>
+                </div>
+
+                <!-- Lifetime Plan (Static for now as per instructions but kept structure) -->
+                <div class="bg-gray-100 rounded-[2rem] p-8 flex flex-col justify-center h-full hover:shadow-lg transition-shadow">
+                    <div class="flex items-baseline gap-1 mb-2">
+                        <span class="text-5xl font-bold tracking-tight">$49.99</span>
+                        <span class="text-lg text-gray-600" data-i18n="pricing.lifetime">/Lifetime</span>
+                    </div>
+                    <p class="text-gray-500 font-medium" data-i18n="pricing.lifetime_desc">Unlock Forever, Pay Once</p>
+                </div>
+            </div>
+
+        <!-- Feature Comparison -->
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-12 gap-4 mb-8 px-4 items-center">
+                <div class="col-span-6 md:col-span-8">
+                    <h3 class="text-2xl font-bold text-left" data-i18n="features.title">Feature Compare</h3>
+                </div>
+                <div class="col-span-3 md:col-span-2 text-center text-xl font-bold">
+                    <span data-i18n="features.free">Free</span>
+                </div>
+                <div class="col-span-3 md:col-span-2 text-center">
+                    <span class="inline-flex items-center gap-2 text-xl font-bold">
+                        Offliner <span class="bg-[#FFD700] text-black text-sm px-2 py-0.5 rounded-full">Pro</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Feature 1 -->
+                <div class="grid grid-cols-12 gap-4 py-4 border-b border-gray-100 items-center">
+                    <div class="col-span-6 md:col-span-8 text-left">
+                        <span class="font-medium text-lg" data-i18n="features.f1">Unlimited Discovery</span>
+                    </div>
+                    <div class="col-span-3 md:col-span-2 flex justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-300 fill-gray-100"></i>
+                    </div>
+                    <div class="col-span-3 md:col-span-2 flex justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-[#1A1A1A] fill-black text-white"></i>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="grid grid-cols-12 gap-4 py-4 border-b border-gray-100 items-center">
+                    <div class="col-span-6 md:col-span-8 text-left">
+                        <span class="font-medium text-lg" data-i18n="features.f2">Unlock Who Likes Me</span>
+                    </div>
+                    <div class="col-span-3 md:col-span-2 flex justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-300 fill-gray-100"></i>
+                    </div>
+                    <div class="col-span-3 md:col-span-2 flex justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-[#1A1A1A] fill-black text-white"></i>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="grid grid-cols-12 gap-4 py-4 border-b border-gray-100 items-center">
+                    <div class="col-span-6 md:col-span-8 text-left">
+                        <span class="font-medium text-lg" data-i18n="features.f3">Activity Analytics</span>
+                    </div>
+                    <div class="col-span-3 md:col-span-2 flex justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-300 fill-gray-100"></i>
+                    </div>
+                    <div class="col-span-3 md:col-span-2 flex justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-[#1A1A1A] fill-black text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+        </div>
+
+        <!-- FOR HOSTS CONTENT -->
+        <div id="for-hosts-content" class="hidden transition-opacity duration-300">
+            <!-- Hero Section for Hosts -->
+            <div class="text-center space-y-8 mb-16">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-black" data-i18n="hosts.hero_title">
+                    Create an event in a sec,<br>and invite friends
+                </h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" data-i18n="hosts.hero_subtitle">
+                    Launch an event in a tap, and your dedicated event page is ready to go!
+                </p>
+                
+                <!-- Central Image -->
+                <div class="flex justify-center my-12">
+                    <img src="assets2/手持app手机.png" alt="Host App View" class="w-full max-w-sm md:max-w-md h-auto object-contain hover:scale-105 transition-transform duration-500">
+                </div>
+
+                <!-- Three Features -->
+                <div class="grid md:grid-cols-3 gap-12 text-left max-w-5xl mx-auto px-4">
+                    <!-- Feature 1 -->
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold" data-i18n="hosts.f1_title">Clear Stats</h3>
+                        <p class="text-gray-600 leading-relaxed" data-i18n="hosts.f1_desc">
+                            Data stats that make sense at a glance.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
+                            <i data-lucide="bell-ring" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold" data-i18n="hosts.f2_title">Instant Notifications</h3>
+                        <p class="text-gray-600 leading-relaxed" data-i18n="hosts.f2_desc">
+                            Wave goodbye to verification headaches—you’ll be notified the second someone signs up and gets approved.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
+                            <i data-lucide="ticket" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold" data-i18n="hosts.f3_title">Easy Redemption</h3>
+                        <p class="text-gray-600 leading-relaxed" data-i18n="hosts.f3_desc">
+                            Even non-app users can redeem tickets easily with shared ticket images.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/language.js"></script>
+    <script>
+        // Auto-detect language by IP
+        async function detectLanguage() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                if (data.country_code === 'CN') {
+                    changeLanguage('zh');
+                } else {
+                    changeLanguage('en');
+                }
+            } catch (error) {
+                console.log('Language detection failed, defaulting to EN');
+                changeLanguage('en');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            detectLanguage();
+            
+            // Check URL parameters for role
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role');
+            if (role === 'hosts') {
+                switchRole('hosts');
+            } else if (role === 'users') {
+                switchRole('users');
+            }
+        });
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mainNav = document.getElementById('main-nav');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const usersContent = document.getElementById('for-users-content');
+        const hostsContent = document.getElementById('for-hosts-content');
+        const btnUsers = document.getElementById('btn-for-users');
+        const btnHosts = document.getElementById('btn-for-hosts');
+
+        function switchRole(role) {
+            if (role === 'users') {
+                usersContent.classList.remove('hidden');
+                hostsContent.classList.add('hidden');
+                
+                // Update Button Styles
+                btnUsers.classList.add('text-black', 'border-b-2', 'border-black');
+                btnUsers.classList.remove('text-gray-400', 'hover:text-gray-600');
+                
+                btnHosts.classList.remove('text-black', 'border-b-2', 'border-black');
+                btnHosts.classList.add('text-gray-400', 'hover:text-gray-600');
+            } else {
+                usersContent.classList.add('hidden');
+                hostsContent.classList.remove('hidden');
+                
+                // Update Button Styles
+                btnHosts.classList.add('text-black', 'border-b-2', 'border-black');
+                btnHosts.classList.remove('text-gray-400', 'hover:text-gray-600');
+                
+                btnUsers.classList.remove('text-black', 'border-b-2', 'border-black');
+                btnUsers.classList.add('text-gray-400', 'hover:text-gray-600');
+            }
+            // Smooth fade effect could be added here if needed
+        }
+
+        function openMenu() {
+            mainNav.classList.add('hidden');
+            mobileMenu.classList.remove('hidden');
+            // Small animation effect
+            mobileMenu.style.opacity = '0';
+            mobileMenu.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                mobileMenu.style.opacity = '1';
+                mobileMenu.style.transform = 'translateY(0)';
+            }, 10);
+        }
+
+        function closeMenu() {
+            mobileMenu.style.opacity = '0';
+            mobileMenu.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+                mainNav.classList.remove('hidden');
+            }, 300);
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+    </script>
+</body>
+</html>
