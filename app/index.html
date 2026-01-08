@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VG2SJYXEQP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VG2SJYXEQP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App - Offliner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#FDFBF7',
+                        'brand-dark': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap');
+        
+        body {
+            background-color: #FDFBF7;
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-btn.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+        
+        /* Spinner */
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #000;
+            width: 16px;
+            height: 16px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans text-gray-800 flex flex-col">
+
+    <!-- Header / Navigation -->
+    <div class="bg-white/90 backdrop-blur-sm shadow-sm sticky top-0 z-40">
+        <div class="max-w-2xl mx-auto px-4">
+            <div class="flex items-center justify-between py-3">
+                <a href="../index.html" class="text-xl font-bold font-serif tracking-tight text-black">Offliner</a>
+                <!-- Mobile specific or simple header actions could go here -->
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex items-center space-x-8 mt-2 border-b border-gray-100">
+                <button onclick="switchTab('search')" id="tab-search" class="tab-btn pb-3 text-gray-500 font-medium hover:text-black transition-colors flex-1 text-center">Search</button>
+                <button onclick="switchTab('list')" id="tab-list" class="tab-btn pb-3 text-gray-500 font-medium hover:text-black transition-colors flex-1 text-center">List</button>
+                <button onclick="switchTab('submit')" id="tab-submit" class="tab-btn pb-3 text-gray-500 font-medium hover:text-black transition-colors flex-1 text-center">Submit & Invite</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full">
+        
+        <!-- Search Tab (Hero Style) -->
+        <div id="content-search" class="tab-content w-full">
+            <div class="h-[70vh] flex flex-col items-center justify-center text-center px-6 max-w-2xl mx-auto">
+                <!-- Main Title -->
+                <h1 class="text-4xl md:text-5xl font-bold text-black mb-4 tracking-tight">
+                    The person you are looking for is right here
+                </h1>
+                
+                <!-- Subtitle -->
+                <p class="text-gray-500 text-sm md:text-base mb-10">
+                    Co-living - Co-learning - Co-creating talent network
+                </p>
+
+                <!-- Search Box -->
+                <div class="relative w-full max-w-md mb-8">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                    <input type="text" 
+                        class="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-full focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all shadow-sm"
+                        placeholder="Search...">
+                </div>
+
+                <!-- Join/Invite Button (Links to Submit Tab) -->
+                <button onclick="switchTab('submit')" class="bg-black text-white px-8 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors shadow-lg">
+                    Join or Invite
+                </button>
+            </div>
+        </div>
+
+        <!-- List Tab (Placeholder) -->
+        <div id="content-list" class="tab-content max-w-2xl mx-auto px-4 py-6">
+            <div class="text-center text-gray-500 mt-10">
+                <p>Directory listing coming soon.</p>
+            </div>
+        </div>
+
+        <!-- Submit & Invite Tab -->
+        <div id="content-submit" class="tab-content max-w-2xl mx-auto px-4 py-6">
+            
+            <!-- Step 1: Submission Form (Visible initially) -->
+            <div id="submit-form-step" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-center">Create Profile</h2>
+                
+                <form id="profile-form" onsubmit="handleFormSubmitAttempt(event)" class="space-y-6">
+                    
+                    <!-- Avatar -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden mb-2 relative group cursor-pointer border border-gray-200">
+                            <img id="avatar-preview" src="" alt="Avatar" class="w-full h-full object-cover hidden">
+                            <i data-lucide="user" class="w-8 h-8 text-gray-400" id="avatar-placeholder"></i>
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i data-lucide="camera" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <input type="file" name="avatar" id="avatar-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 'avatar-preview', 'avatar-placeholder')">
+                        </div>
+                        <span class="text-sm text-gray-500">Upload Avatar</span>
+                    </div>
+
+                    <!-- Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                        <input type="text" name="businessName" required
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors">
+                    </div>
+
+                    <!-- Tags -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tags (comma separated)</label>
+                        <input type="text" name="tags" placeholder="e.g. Developer, Designer, Coffee Lover"
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">These will be mapped to your custom tags.</p>
+                    </div>
+
+                    <!-- Personal Website -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Personal Website / Social Link</label>
+                        <input type="url" name="website" placeholder="https://..."
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors">
+                    </div>
+
+                    <!-- Invitation Code -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Invitation Code (Required)</label>
+                        <input type="text" name="inviteCode" required placeholder="Enter invitation code"
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors">
+                    </div>
+
+                    <!-- Photos -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Photos (Album)</label>
+                        <div class="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center hover:border-black transition-colors cursor-pointer relative">
+                            <input type="file" name="photos" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePhotos(this)">
+                            <i data-lucide="image-plus" class="w-6 h-6 text-gray-400 mx-auto mb-2"></i>
+                            <span class="text-sm text-gray-500" id="photos-label">Click to upload photos</span>
+                        </div>
+                        <div id="photos-preview" class="flex flex-wrap gap-2 mt-2"></div>
+                    </div>
+
+                    <button type="submit" 
+                        class="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors shadow-lg">
+                        Submit & Join
+                    </button>
+                </form>
+            </div>
+
+            <!-- Invite Section -->
+            <div class="mt-10 text-center">
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100">
+                    <i data-lucide="share-2" class="w-10 h-10 text-gray-400 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-bold mb-2">Already a member?</h3>
+                    <p class="text-gray-500 mb-4 text-sm">Invite friends to join the network.</p>
+                    <button class="bg-white text-black border border-gray-200 px-6 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm">
+                        Copy Invite Link
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-black">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold">Verify Phone Number</h3>
+                <p class="text-gray-500 text-sm mt-1">Please verify your phone to submit your profile.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Phone Input -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <div class="flex gap-2">
+                        <input type="tel" id="modal-phone" placeholder="Enter phone number" 
+                            class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors">
+                        <button onclick="sendCode()" id="modal-send-btn"
+                            class="px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 whitespace-nowrap">
+                            Send Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Input -->
+                <div id="modal-code-section" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Verification Code</label>
+                    <input type="text" id="modal-code" placeholder="6-digit code" maxlength="6"
+                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors tracking-widest text-center text-lg">
+                    
+                    <button onclick="verifyAndSubmit()" id="modal-verify-btn"
+                        class="w-full mt-4 bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50">
+                        Verify & Submit Profile
+                    </button>
+                </div>
+
+                <div id="modal-msg" class="text-sm text-center text-red-500 hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Overlay -->
+    <div id="success-overlay" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-white">
+        <div class="text-center p-6">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="check" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-3xl font-bold mb-4">Welcome to Offliner!</h2>
+            <p class="text-gray-500 mb-8 max-w-sm mx-auto">Your profile has been created successfully. You can now explore the community.</p>
+            <button onclick="switchTab('search'); document.getElementById('success-overlay').classList.add('hidden')" 
+                class="bg-black text-white px-8 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors shadow-lg">
+                Start Exploring
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // --- Supabase Configuration ---
+        const SUPABASE_URL = 'https://zjxxxlheuakocayekiew.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqeHh4bGhldWFrb2NheWVraWV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5MDMxNzQsImV4cCI6MjA4MjQ3OTE3NH0.LTsbdVgWr-TxoaiRvRRDs7cSdYpTzZAowcqcyNrhA-4';
+        let supabaseClient = null;
+
+        try {
+            if (window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch (e) {
+            console.error('Failed to initialize Supabase:', e);
+        }
+
+        async function validateInviteCode(code) {
+            if (!supabaseClient) {
+                console.warn('Supabase not configured. Skipping validation.');
+                return true; 
+            }
+            if (SUPABASE_URL.includes('YOUR_SUPABASE')) {
+                 alert('Please configure Supabase URL and Key in index.html');
+                 throw new Error('Supabase not configured');
+            }
+
+            const { data, error } = await supabaseClient
+                .from('invitation_codes')
+                .select('*')
+                .eq('code', code)
+                .single();
+            
+            if (error || !data) throw new Error('Invalid invitation code');
+            if (data.usage_count >= 10) throw new Error('Invitation code has reached its usage limit (10/10)');
+            
+            return data;
+        }
+
+        async function incrementInviteCodeUsage(code) {
+            if (!supabaseClient) return;
+            try {
+                // Fetch current count first to be safe
+                const { data } = await supabaseClient
+                    .from('invitation_codes')
+                    .select('usage_count')
+                    .eq('code', code)
+                    .single();
+                
+                if (data) {
+                    await supabaseClient
+                        .from('invitation_codes')
+                        .update({ usage_count: data.usage_count + 1 })
+                        .eq('code', code);
+                }
+            } catch (e) {
+                console.error('Failed to update invite code usage:', e);
+            }
+        }
+
+        // Global State
+        let pendingFormData = null;
+        let authToken = null;
+        let currentUserId = null;
+
+        // Tab Switching Logic
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`content-${tabName}`).classList.add('active');
+        }
+        
+        // Initial Tab
+        switchTab('search');
+
+        // Form Handling
+        function previewImage(input, imgId, placeholderId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById(placeholderId).classList.add('hidden');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function handlePhotos(input) {
+            const previewContainer = document.getElementById('photos-preview');
+            const label = document.getElementById('photos-label');
+            
+            if (input.files && input.files.length > 0) {
+                label.textContent = `${input.files.length} files selected`;
+                previewContainer.innerHTML = '';
+                
+                Array.from(input.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'w-16 h-16 rounded overflow-hidden bg-gray-100';
+                        div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                        previewContainer.appendChild(div);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+        function handleFormSubmitAttempt(e) {
+            e.preventDefault();
+            // Store form data for later
+            pendingFormData = new FormData(e.target);
+            
+            // Validate basic fields
+            const name = pendingFormData.get('businessName');
+            if (!name) {
+                alert('Please enter your name.');
+                return;
+            }
+
+            // Open Login Modal
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('login-modal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-modal').classList.remove('flex');
+        }
+
+        // --- API Helpers ---
+        const resolveApiBase = () => {
+            const host = window.location.hostname || 'localhost';
+            const isLocal = /localhost|127\.0\.0\.1/i.test(host);
+            if (!isLocal) return ''; 
+            return `http://${host}:3010`;
+        };
+
+        const makeUrl = (path) => {
+            const base = resolveApiBase();
+            return `${base}${path}`;
+        };
+
+        // --- Auth & Submit Logic ---
+        async function sendCode() {
+            const phone = document.getElementById('modal-phone').value.trim();
+            const btn = document.getElementById('modal-send-btn');
+            const msgEl = document.getElementById('modal-msg');
+
+            if (!phone) {
+                msgEl.textContent = 'Please enter phone number';
+                msgEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            msgEl.classList.add('hidden');
+
+            try {
+                const url = makeUrl('/api/sms/send-code');
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone, type: 'login' })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    msgEl.textContent = 'Code sent!';
+                    msgEl.className = 'text-sm text-center text-green-500 mt-2';
+                    msgEl.classList.remove('hidden');
+                    document.getElementById('modal-code-section').classList.remove('hidden');
+                } else {
+                    throw new Error(data.message || 'Failed to send');
+                }
+            } catch (e) {
+                console.error(e);
+                msgEl.textContent = e.message || 'Network error';
+                msgEl.className = 'text-sm text-center text-red-500 mt-2';
+                msgEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.textContent = 'Send Code';
+            }
+        }
+
+        async function verifyAndSubmit() {
+            const phone = document.getElementById('modal-phone').value.trim();
+            const code = document.getElementById('modal-code').value.trim();
+            const btn = document.getElementById('modal-verify-btn');
+            const msgEl = document.getElementById('modal-msg');
+
+            if (!code || code.length !== 6) {
+                msgEl.textContent = 'Invalid code';
+                msgEl.className = 'text-sm text-center text-red-500 mt-2';
+                msgEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            try {
+                // 1. Verify & Login
+                let token = null;
+                let userId = null;
+                
+                const loginUrl = makeUrl('/api/auth/merchant/login-phone');
+                const loginRes = await fetch(loginUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone, code: code })
+                });
+                const loginData = await loginRes.json();
+
+                if (loginRes.ok && loginData.token) {
+                    token = loginData.token;
+                    userId = loginData.merchant?.id;
+                } else {
+                    // Check if user not found (needs registration)
+                    const msg = loginData.message || '';
+                    // Common 404 or specific messages for "not found"
+                    const isUserNotFound = loginRes.status === 404 || /未绑定|not.*bind|no.*account/i.test(msg);
+                    
+                    if (isUserNotFound) {
+                        // Register new user
+                        const businessName = pendingFormData.get('businessName');
+                        // Generate username/password
+                        const unameBase = (businessName || '').replace(/[^a-zA-Z0-9_\-\u4e00-\u9fa5]/g, '') || `user_${phone.slice(-4)}`;
+                        const username = `${unameBase}_${Math.random().toString(16).slice(2, 6)}`;
+                        const password = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+
+                        const regUrl = makeUrl('/api/auth/merchant/register');
+                        const regRes = await fetch(regUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                username: username,
+                                password: password,
+                                phone: phone,       // Standard field
+                                contactPhone: phone,// LoginOverlay field
+                                businessName: businessName
+                            })
+                        });
+                        const regData = await regRes.json();
+
+                        if (regRes.ok && regData.token) {
+                            token = regData.token;
+                            userId = regData.merchant?.id;
+                        } else {
+                            throw new Error(regData.message || 'Registration failed');
+                        }
+                    } else {
+                        throw new Error(msg || 'Verification failed');
+                    }
+                }
+
+                authToken = token;
+                currentUserId = userId;
+
+                // 2. Upload Avatar (if exists)
+                const avatarFile = pendingFormData.get('avatar');
+                if (avatarFile && avatarFile.size > 0) {
+                    const avatarFormData = new FormData();
+                    avatarFormData.append('avatar', avatarFile);
+                    
+                    await fetch(makeUrl('/api/merchants/profile/avatar'), {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${authToken}` },
+                        body: avatarFormData
+                    });
+                }
+
+                // 3. Update Profile Data
+                const tags = pendingFormData.get('tags') || '';
+                const tagList = tags.split(',').map(t => t.trim()).filter(Boolean);
+                
+                // Map tags to available slots (customTag1, 2, 3)
+                const profilePayload = {
+                    businessName: pendingFormData.get('businessName'),
+                    // Assuming 'website' can go to 'xiaohongshuUrl' or similar if no generic website field
+                    // But let's check docs: 'xiaohongshuUrl', 'jikeUrl', etc.
+                    // I'll put it in 'xiaohongshuUrl' for now as a placeholder or just omit if no generic field.
+                    // Actually, let's try to put it in bio or just skip if no matching field.
+                    // User said "Personal Website". I will put it in 'xiaohongshuUrl' as a hack or 'bio'.
+                    // Better: put it in bio if not url specific.
+                    bio: `Website: ${pendingFormData.get('website') || 'None'}`,
+                    customTag1: tagList[0] || '',
+                    customTag2: tagList[1] || '',
+                    customTag3: tagList[2] || ''
+                };
+
+                await fetch(makeUrl('/api/merchants/profile'), {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}` 
+                    },
+                    body: JSON.stringify(profilePayload)
+                });
+
+                // 4. Upload Album Photos (if any)
+                // We need userId for this: /api/photos/users/:userId/upload
+                if (currentUserId) {
+                    const photos = pendingFormData.getAll('photos');
+                    if (photos && photos.length > 0 && photos[0].size > 0) {
+                        const photoFormData = new FormData();
+                        photos.forEach(f => photoFormData.append('files', f));
+                        // Optional captions
+                        // photoFormData.append('captions', JSON.stringify([]));
+
+                        await fetch(makeUrl(`/api/photos/users/${currentUserId}/upload`), {
+                            method: 'POST',
+                            headers: { 'Authorization': `Bearer ${authToken}` },
+                            body: photoFormData
+                        });
+                    }
+                }
+
+                // Success!
+                closeModal();
+                document.getElementById('success-overlay').classList.remove('hidden');
+
+            } catch (e) {
+                console.error(e);
+                msgEl.textContent = e.message || 'Submission failed';
+                msgEl.className = 'text-sm text-center text-red-500 mt-2';
+                msgEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.textContent = 'Verify & Submit Profile';
+            }
+        }
+    </script>
+</body>
+</html>

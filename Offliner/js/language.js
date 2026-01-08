@@ -55,6 +55,10 @@ const translations = {
         "nav.pricing": "Pricing",
         "nav.support": "Support",
         "nav.download": "Download app",
+        "community.title": "The person you are looking for is right here",
+        "community.subtitle": "Co-living - Co-learning - Co-creating talent network",
+        "community.search_placeholder": "Search...",
+        "community.join_btn": "Join or Invite",
         "hero.title": "On the map<br>meet interesting souls",
         "hero.subtitle": "Find nearby activities, meet friends, and enjoy authentic offline social interactions.",
         "pricing.title": "Pricing Plans",
@@ -85,6 +89,10 @@ const translations = {
         "nav.pricing": "价格",
         "nav.support": "支持",
         "nav.download": "下载应用",
+        "community.title": "你要找的人，就在这里",
+        "community.subtitle": "共居-共学-共创人才网络",
+        "community.search_placeholder": "搜索...",
+        "community.join_btn": "加入或邀请",
         "hero.title": "在地图上<br>发现有趣灵魂",
         "hero.subtitle": "发现身边的活动，结识新朋友，享受真实的线下社交体验。",
         "pricing.title": "会员方案",
@@ -183,6 +191,12 @@ function changeLanguage(lang) {
     const langBtn = document.getElementById('current-lang');
     if (langBtn) {
         langBtn.textContent = lang === 'en' ? 'EN' : '中文';
+    }
+
+    // Update placeholder
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.placeholder = translations[lang]["community.search_placeholder"] || "";
     }
 
     // Re-render price description to match language
