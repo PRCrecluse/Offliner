@@ -56,6 +56,19 @@
             visibility: visible;
             transform: translateY(0);
         }
+
+        /* Hosts Dropdown */
+        .hosts-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .hosts-container:hover .hosts-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="min-h-screen relative font-sans text-gray-800">
@@ -296,39 +309,64 @@
                 </div>
 
                 <!-- Three Features -->
-                <div class="grid md:grid-cols-3 gap-12 text-left max-w-5xl mx-auto px-4">
-                    <!-- Feature 1 -->
-                    <div class="space-y-4">
-                        <div class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
-                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                <div class="space-y-32 text-left max-w-6xl mx-auto px-4">
+                    
+                    <!-- Section 1 -->
+                    <div id="host-sec1" class="flex flex-col md:flex-row items-center gap-12">
+                        <div class="w-full md:w-1/2 space-y-6">
+                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec1_title">Create an Independent Event Website in Seconds</h3>
+                            <p class="text-gray-600 leading-relaxed text-lg" data-i18n="hosts.sec1_desc">
+                                No complex operations required. Just input key info like event name, time, and location. The system automatically generates a dedicated event website with beautiful templates (supports custom logos). No coding skills needed—get your event online instantly with an official portal.
+                            </p>
                         </div>
-                        <h3 class="text-xl font-bold" data-i18n="hosts.f1_title">Clear Stats</h3>
-                        <p class="text-gray-600 leading-relaxed" data-i18n="hosts.f1_desc">
-                            Data stats that make sense at a glance.
-                        </p>
+                        <div class="w-full md:w-1/2 bg-gray-100 rounded-3xl aspect-video flex items-center justify-center">
+                             <!-- Placeholder for Image/Video -->
+                             <span class="text-gray-400">Image/Video Placeholder</span>
+                        </div>
                     </div>
 
-                    <!-- Feature 2 -->
-                    <div class="space-y-4">
-                        <div class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
-                            <i data-lucide="bell-ring" class="w-6 h-6"></i>
+                    <!-- Section 2 -->
+                    <div id="host-sec2" class="flex flex-col md:flex-row-reverse items-center gap-12">
+                        <div class="w-full md:w-1/2 space-y-6">
+                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec2_title">One-Click Event Notifications & Updates</h3>
+                            <p class="text-gray-600 leading-relaxed text-lg" data-i18n="hosts.sec2_desc">
+                                Your event site comes with built-in notification features. Support multi-channel reach via SMS, in-app messages, and emails. Instantly broadcast time changes, schedule updates, or important reminders. Attendees receive updates in real-time, ensuring no info is missed, while also viewing dynamic updates on the site for a better experience.
+                            </p>
                         </div>
-                        <h3 class="text-xl font-bold" data-i18n="hosts.f2_title">Instant Notifications</h3>
-                        <p class="text-gray-600 leading-relaxed" data-i18n="hosts.f2_desc">
-                            Wave goodbye to verification headaches—you’ll be notified the second someone signs up and gets approved.
-                        </p>
+                        <div class="w-full md:w-1/2 bg-gray-100 rounded-3xl aspect-video flex items-center justify-center">
+                             <!-- Placeholder for Image/Video -->
+                             <span class="text-gray-400">Image/Video Placeholder</span>
+                        </div>
                     </div>
 
-                    <!-- Feature 3 -->
-                    <div class="space-y-4">
-                        <div class="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
-                            <i data-lucide="ticket" class="w-6 h-6"></i>
+                    <!-- Section 3 -->
+                    <div id="host-sec3" class="flex flex-col md:flex-row items-center gap-12">
+                        <div class="w-full md:w-1/2 space-y-6">
+                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec3_title">Free Check-in & Stats Tool, Visualized Data</h3>
+                            <p class="text-gray-600 leading-relaxed text-lg" data-i18n="hosts.sec3_desc">
+                                Built-in free check-in function supporting both QR code and phone number verification for quick entry. The system automatically tallies attendees, absentees, and check-in rates, generating visual data reports. No manual counting needed—get a clear view of participation and efficient data review.
+                            </p>
                         </div>
-                        <h3 class="text-xl font-bold" data-i18n="hosts.f3_title">Easy Redemption</h3>
-                        <p class="text-gray-600 leading-relaxed" data-i18n="hosts.f3_desc">
-                            Even non-app users can redeem tickets easily with shared ticket images.
-                        </p>
+                        <div class="w-full md:w-1/2 bg-gray-100 rounded-3xl aspect-video flex items-center justify-center">
+                             <!-- Placeholder for Image/Video -->
+                             <span class="text-gray-400">Image/Video Placeholder</span>
+                        </div>
                     </div>
+
+                    <!-- Section 4 -->
+                    <div id="host-sec4" class="flex flex-col md:flex-row-reverse items-center gap-12">
+                        <div class="w-full md:w-1/2 space-y-6">
+                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec4_title">One-Click Contact Export, No Excel Hassle</h3>
+                            <p class="text-gray-600 leading-relaxed text-lg" data-i18n="hosts.sec4_desc">
+                                Attendee registration info is automatically synced and stored. No manual Excel organization required. Support one-click export of names, phone numbers, and notes in Word or Excel formats. Save 90% of data organization time, facilitating follow-up communication and relationship maintenance.
+                            </p>
+                        </div>
+                        <div class="w-full md:w-1/2 bg-gray-100 rounded-3xl aspect-video flex items-center justify-center">
+                             <!-- Placeholder for Image/Video -->
+                             <span class="text-gray-400">Image/Video Placeholder</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -336,6 +374,27 @@
 
     <script src="js/language.js"></script>
     <script>
+        // Navigate to specific host section
+        function navigateToHostSection(id) {
+            // Ensure we are in host view
+            switchRole('hosts');
+            
+            // Wait for view transition (if any) or DOM update
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const offset = 100; // Adjust for fixed header
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }, 100);
+        }
+
         // Auto-detect language by IP
         async function detectLanguage() {
             try {
