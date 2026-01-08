@@ -56,6 +56,18 @@
             visibility: visible;
             transform: translateY(0);
         }
+        /* Hosts Dropdown */
+        .hosts-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .hosts-container:hover .hosts-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="min-h-screen relative font-sans text-gray-800">

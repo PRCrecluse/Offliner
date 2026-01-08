@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VG2SJYXEQP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-VG2SJYXEQP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Notifications - Offliner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#FDFBF7',
+                        'brand-dark': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap');
+        
+        body {
+            background-color: #FDFBF7;
+        }
+        
+        #mobile-menu {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .lang-dropdown, .hosts-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .lang-container:hover .lang-dropdown, .hosts-container:hover .hosts-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative font-sans text-gray-800">
+
+    <!-- Floating Navigation Container -->
+    <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        
+        <nav id="main-nav" class="bg-white/90 backdrop-blur-sm rounded-full shadow-lg px-6 py-3 flex items-center justify-between w-full max-w-6xl transition-all duration-300">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="../index.html" class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</a>
+            </div>
+
+            <!-- Role Toggle -->
+            <div class="hidden md:flex items-center gap-4 text-sm font-medium ml-8">
+                <a href="../social/index.html" class="text-gray-400 hover:text-black transition-colors pb-0.5" data-i18n="nav.for_users">For Users</a>
+                <div class="relative hosts-container">
+                    <a href="../host/index.html" class="text-black border-b-2 border-black pb-0.5 transition-colors" data-i18n="nav.for_hosts">For Hosts</a>
+                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-48 bg-white rounded-xl shadow-xl py-2 hosts-dropdown z-50">
+                        <a href="../website/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec1">Website</a>
+                        <a href="../notifications/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec2">Notifications</a>
+                        <a href="../check-in/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec3">Check-in</a>
+                        <a href="../export/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec4">Export</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
+                <a href="../community.html" class="hover:text-black transition-colors" data-i18n="nav.community">Community</a>
+                <a href="../index.html#pricing" class="hover:text-black transition-colors" data-i18n="nav.pricing">Pricing</a>
+                <a href="mailto:prcrecluse@gmail.com" class="hover:text-black transition-colors" data-i18n="nav.support">Support</a>
+            </div>
+
+            <!-- Right Side Actions -->
+            <div class="flex items-center gap-4">
+                <!-- Language Switcher -->
+                <div class="relative lang-container hidden md:block">
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-black font-medium focus:outline-none">
+                        <span id="current-lang">EN</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    </button>
+                    <div class="absolute top-full right-0 mt-2 w-24 bg-white rounded-xl shadow-xl py-2 lang-dropdown">
+                        <button onclick="changeLanguage('en')" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">English</button>
+                        <button onclick="changeLanguage('zh')" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">中文</button>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <a href="https://apps.apple.com/us/app/%E7%BA%BF%E4%B8%8B%E5%92%96offliner-%E7%BA%A6%E6%9D%AF%E5%92%96%E5%95%A1-%E5%8F%91%E7%8E%B0%E8%BA%AB%E8%BE%B9%E4%BA%BA-%E6%B4%BB%E5%8A%A8-%E4%BA%A4%E6%9C%8B%E5%8F%8B/id6743653417?l=zh-Hans-CN" target="_blank" class="hidden md:flex items-center gap-2 bg-[#1A1A1A] text-white px-5 py-2.5 rounded-full hover:bg-black transition-colors font-medium">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span data-i18n="nav.download">Download app</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-40 px-6 max-w-7xl mx-auto mb-24">
+        
+        <div class="flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2 space-y-8">
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight" data-i18n="hosts.sec2_title">Instant Event Notifications</h1>
+                <p class="text-xl text-gray-600 leading-relaxed" data-i18n="hosts.sec2_desc">Multi-channel alerts (SMS, Email) for schedule updates. Keep attendees informed in real-time.</p>
+                
+                <div class="pt-4">
+                    <a href="https://apps.apple.com/us/app/%E7%BA%BF%E4%B8%8B%E5%92%96offliner-%E7%BA%A6%E6%9D%AF%E5%92%96%E5%95%A1-%E5%8F%91%E7%8E%B0%E8%BA%AB%E8%BE%B9%E4%BA%BA-%E6%B4%BB%E5%8A%A8-%E4%BA%A4%E6%9C%8B%E5%8F%8B/id6743653417?l=zh-Hans-CN" target="_blank" class="inline-flex items-center gap-2 bg-[#1A1A1A] text-white px-8 py-4 rounded-full hover:bg-black transition-colors font-medium text-lg">
+                        <i data-lucide="smartphone" class="w-5 h-5"></i>
+                        <span data-i18n="nav.download">Download app</span>
+                    </a>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 bg-gray-100 rounded-[2rem] aspect-video flex items-center justify-center overflow-hidden shadow-lg border border-gray-100">
+                <span class="text-gray-400 font-medium">Image/Video Placeholder</span>
+            </div>
+        </div>
+    </main>
+
+    <script src="../Offliner/js/language.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        let currentLang = 'en';
+
+        // Function to switch language
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            const langBtn = document.getElementById('current-lang');
+            if (langBtn) {
+                langBtn.textContent = lang === 'en' ? 'EN' : '中文';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

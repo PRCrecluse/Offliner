@@ -80,19 +80,19 @@
         <nav id="main-nav" class="bg-white/90 backdrop-blur-sm rounded-full shadow-lg px-6 py-3 flex items-center justify-between w-full max-w-6xl transition-all duration-300">
             <!-- Logo -->
             <div class="flex items-center">
-                <a href="index.html" class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</a>
+                <a href="../index.html" class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</a>
             </div>
 
             <!-- Role Toggle -->
             <div class="hidden md:flex items-center gap-4 text-sm font-medium ml-8">
-                <a href="social/index.html" class="text-black border-b-2 border-black pb-0.5 transition-colors" data-i18n="nav.for_users">For Users</a>
+                <span class="text-black border-b-2 border-black pb-0.5 transition-colors" data-i18n="nav.for_users">For Users</span>
                 <div class="relative hosts-container">
-                    <a href="host/index.html" class="text-gray-400 hover:text-black transition-colors pb-0.5" data-i18n="nav.for_hosts">For Hosts</a>
+                    <a href="../host/index.html" class="text-gray-400 hover:text-black transition-colors pb-0.5" data-i18n="nav.for_hosts">For Hosts</a>
                     <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-48 bg-white rounded-xl shadow-xl py-2 hosts-dropdown z-50">
-                        <a href="website/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec1">Website</a>
-                        <a href="notifications/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec2">Notifications</a>
-                        <a href="check-in/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec3">Check-in</a>
-                        <a href="export/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec4">Export</a>
+                        <a href="../website/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec1">Website</a>
+                        <a href="../notifications/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec2">Notifications</a>
+                        <a href="../check-in/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec3">Check-in</a>
+                        <a href="../export/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec4">Export</a>
                     </div>
                 </div>
             </div>
@@ -190,8 +190,8 @@
             <!-- Right Content: App Screenshots -->
             <div class="w-full md:w-[60%] flex justify-center md:justify-end relative h-[500px] md:h-auto items-center">
                 <div class="relative w-full h-full flex justify-center items-center">
-                    <img src="assets2/英文2-在地图上发现有趣灵魂 1.png" alt="Map View" class="absolute left-[5%] w-[40%] h-auto object-contain transform translate-y-12 scale-[3.2] -rotate-[7deg] z-10 origin-center transition-transform hover:scale-[3.3] duration-500">
-                    <img src="assets2/英文1-和global friends聊天 1.png" alt="Chat View" class="absolute right-[5%] w-[40%] h-auto object-contain transform -translate-y-12 scale-[3.2] rotate-[7deg] z-0 origin-center transition-transform hover:scale-[3.3] duration-500">
+                    <img src="../assets2/英文2-在地图上发现有趣灵魂 1.png" alt="Map View" class="absolute left-[5%] w-[40%] h-auto object-contain transform translate-y-12 scale-[3.2] -rotate-[7deg] z-10 origin-center transition-transform hover:scale-[3.3] duration-500">
+                    <img src="../assets2/英文1-和global friends聊天 1.png" alt="Chat View" class="absolute right-[5%] w-[40%] h-auto object-contain transform -translate-y-12 scale-[3.2] rotate-[7deg] z-0 origin-center transition-transform hover:scale-[3.3] duration-500">
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
         <div class="max-w-4xl mx-auto mb-20">
             <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-black aspect-video">
                 <video controls class="w-full h-full object-cover">
-                    <source src="assets2/App界面展示.MP4" type="video/mp4">
+                    <source src="../assets2/App界面展示.MP4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -299,96 +299,9 @@
         </div>
         </section>
         </div>
-
-        <!-- FOR HOSTS CONTENT -->
-        <div id="for-hosts-content" class="hidden transition-opacity duration-300">
-            <!-- Hero Section for Hosts -->
-            <div class="text-center space-y-8 mb-16">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-black" data-i18n="hosts.hero_title">
-                    Create an event in a sec,<br>and invite friends
-                </h1>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" data-i18n="hosts.hero_subtitle">
-                    Launch an event in a tap, and your dedicated event page is ready to go!
-                </p>
-                
-                <!-- Central Image -->
-                <div class="flex justify-center my-12">
-                    <img src="assets2/手持app手机.png" alt="Host App View" class="w-full max-w-sm md:max-w-md h-auto object-contain hover:scale-105 transition-transform duration-500">
-                </div>
-
-                <!-- Four Vertical Sections -->
-                <div class="space-y-24 max-w-6xl mx-auto px-4 mt-24 text-left">
-                    
-                    <!-- Section 1: Website -->
-                    <div id="host-sec-1" class="flex flex-col md:flex-row items-center gap-12">
-                        <div class="w-full md:w-1/2 space-y-6">
-                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec1_title">Launch Your Event Site in Seconds</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed" data-i18n="hosts.sec1_desc">
-                                Input key info, get a dedicated site with templates instantly. No coding needed.
-                            </p>
-                            <a href="website.html" class="inline-flex items-center text-black font-semibold hover:underline">
-                                Learn more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                            </a>
-                        </div>
-                        <div class="w-full md:w-1/2 bg-gray-100 rounded-2xl aspect-video flex items-center justify-center overflow-hidden shadow-sm">
-                            <span class="text-gray-400">Image/Video Placeholder</span>
-                        </div>
-                    </div>
-
-                    <!-- Section 2: Notifications -->
-                    <div id="host-sec-2" class="flex flex-col md:flex-row-reverse items-center gap-12">
-                        <div class="w-full md:w-1/2 space-y-6">
-                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec2_title">Instant Event Notifications</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed" data-i18n="hosts.sec2_desc">
-                                Multi-channel alerts (SMS, Email) for schedule updates. Keep attendees informed in real-time.
-                            </p>
-                            <a href="notifications.html" class="inline-flex items-center text-black font-semibold hover:underline">
-                                Learn more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                            </a>
-                        </div>
-                        <div class="w-full md:w-1/2 bg-gray-100 rounded-2xl aspect-video flex items-center justify-center overflow-hidden shadow-sm">
-                            <span class="text-gray-400">Image/Video Placeholder</span>
-                        </div>
-                    </div>
-
-                    <!-- Section 3: Check-in -->
-                    <div id="host-sec-3" class="flex flex-col md:flex-row items-center gap-12">
-                        <div class="w-full md:w-1/2 space-y-6">
-                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec3_title">Free Check-in & Analytics</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed" data-i18n="hosts.sec3_desc">
-                                QR/Phone check-in with auto-stats. Visual reports for attendees and check-in rates.
-                            </p>
-                            <a href="check-in.html" class="inline-flex items-center text-black font-semibold hover:underline">
-                                Learn more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                            </a>
-                        </div>
-                        <div class="w-full md:w-1/2 bg-gray-100 rounded-2xl aspect-video flex items-center justify-center overflow-hidden shadow-sm">
-                            <span class="text-gray-400">Image/Video Placeholder</span>
-                        </div>
-                    </div>
-
-                    <!-- Section 4: Export -->
-                    <div id="host-sec-4" class="flex flex-col md:flex-row-reverse items-center gap-12">
-                        <div class="w-full md:w-1/2 space-y-6">
-                            <h3 class="text-3xl font-bold" data-i18n="hosts.sec4_title">One-Click Data Export</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed" data-i18n="hosts.sec4_desc">
-                                Auto-sync attendee info. Export names and contacts to Excel/Word instantly.
-                            </p>
-                            <a href="export.html" class="inline-flex items-center text-black font-semibold hover:underline">
-                                Learn more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                            </a>
-                        </div>
-                        <div class="w-full md:w-1/2 bg-gray-100 rounded-2xl aspect-video flex items-center justify-center overflow-hidden shadow-sm">
-                            <span class="text-gray-400">Image/Video Placeholder</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </main>
 
-    <script src="Offliner/js/language.js"></script>
+    <script src="../Offliner/js/language.js"></script>
     <script>
         // Auto-detect language by IP
         async function detectLanguage() {
@@ -409,6 +322,15 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             detectLanguage();
+            
+            // Check URL parameters for role
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role');
+            if (role === 'hosts') {
+                switchRole('hosts');
+            } else if (role === 'users') {
+                switchRole('users');
+            }
         });
 
         // Initialize Lucide Icons

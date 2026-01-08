@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offliner-Chat,Dating&Events</title>
+    <title>Create an event in a sec, and invite friends</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -80,19 +80,19 @@
         <nav id="main-nav" class="bg-white/90 backdrop-blur-sm rounded-full shadow-lg px-6 py-3 flex items-center justify-between w-full max-w-6xl transition-all duration-300">
             <!-- Logo -->
             <div class="flex items-center">
-                <a href="index.html" class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</a>
+                <a href="../index.html" class="text-2xl font-bold font-serif tracking-tight text-black">Offliner</a>
             </div>
 
             <!-- Role Toggle -->
             <div class="hidden md:flex items-center gap-4 text-sm font-medium ml-8">
-                <a href="social/index.html" class="text-black border-b-2 border-black pb-0.5 transition-colors" data-i18n="nav.for_users">For Users</a>
+                <a href="../social/index.html" class="text-gray-400 hover:text-black transition-colors pb-0.5" data-i18n="nav.for_users">For Users</a>
                 <div class="relative hosts-container">
-                    <a href="host/index.html" class="text-gray-400 hover:text-black transition-colors pb-0.5" data-i18n="nav.for_hosts">For Hosts</a>
+                    <span class="text-black border-b-2 border-black pb-0.5 transition-colors" data-i18n="nav.for_hosts">For Hosts</span>
                     <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-48 bg-white rounded-xl shadow-xl py-2 hosts-dropdown z-50">
-                        <a href="website/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec1">Website</a>
-                        <a href="notifications/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec2">Notifications</a>
-                        <a href="check-in/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec3">Check-in</a>
-                        <a href="export/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec4">Export</a>
+                        <a href="../website/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec1">Website</a>
+                        <a href="../notifications/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec2">Notifications</a>
+                        <a href="../check-in/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec3">Check-in</a>
+                        <a href="../export/index.html" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700" data-i18n="nav.hosts_sec4">Export</a>
                     </div>
                 </div>
             </div>
@@ -165,143 +165,8 @@
     <!-- Main Content Placeholder -->
     <main class="pt-32 px-6 max-w-7xl mx-auto">
         
-        <!-- FOR USERS CONTENT -->
-        <div id="for-users-content" class="transition-opacity duration-300">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-12 mb-20">
-            <!-- Left Content: Text & Download -->
-            <div class="w-full md:w-[40%] text-left space-y-8 z-10 relative">
-                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-black" data-i18n="hero.title">
-                    On the map<br>meet interesting souls
-                </h1>
-                <p class="text-xl text-gray-600 max-w-xl" data-i18n="hero.subtitle">
-                    Find nearby activities, meet friends, and enjoy authentic offline social interactions.
-                </p>
-                
-                <!-- App Store Button -->
-                <a href="https://apps.apple.com/us/app/%E7%BA%BF%E4%B8%8B%E5%92%96offliner-%E7%BA%A6%E6%9D%AF%E5%92%96%E5%95%A1-%E5%8F%91%E7%8E%B0%E8%BA%AB%E8%BE%B9%E4%BA%BA-%E6%B4%BB%E5%8A%A8-%E4%BA%A4%E6%9C%8B%E5%8F%8B/id6743653417?l=zh-Hans-CN" 
-                   target="_blank" 
-                   class="inline-block transition-transform hover:scale-105">
-                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1319760000" 
-                         alt="Download on the App Store" 
-                         style="height: 60px; width: auto;">
-                </a>
-            </div>
-
-            <!-- Right Content: App Screenshots -->
-            <div class="w-full md:w-[60%] flex justify-center md:justify-end relative h-[500px] md:h-auto items-center">
-                <div class="relative w-full h-full flex justify-center items-center">
-                    <img src="assets2/英文2-在地图上发现有趣灵魂 1.png" alt="Map View" class="absolute left-[5%] w-[40%] h-auto object-contain transform translate-y-12 scale-[3.2] -rotate-[7deg] z-10 origin-center transition-transform hover:scale-[3.3] duration-500">
-                    <img src="assets2/英文1-和global friends聊天 1.png" alt="Chat View" class="absolute right-[5%] w-[40%] h-auto object-contain transform -translate-y-12 scale-[3.2] rotate-[7deg] z-0 origin-center transition-transform hover:scale-[3.3] duration-500">
-                </div>
-            </div>
-        </div>
-
-        <!-- Video Demo -->
-        <div class="max-w-4xl mx-auto mb-20">
-            <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-black aspect-video">
-                <video controls class="w-full h-full object-cover">
-                    <source src="assets2/App界面展示.MP4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </div>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="py-16 text-left">
-            <h2 class="text-4xl font-bold text-center mb-12" data-i18n="pricing.title">Pricing Plans</h2>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <!-- Monthly Plan -->
-                <div class="bg-gray-100 rounded-[2rem] p-8 flex flex-col justify-center h-full hover:shadow-lg transition-shadow">
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <span class="text-5xl font-bold tracking-tight" id="price-monthly">$4.99</span>
-                        <span class="text-lg text-gray-600" data-i18n="pricing.monthly">/Monthly</span>
-                    </div>
-                    <p class="text-gray-500 font-medium" data-i18n="pricing.monthly_desc">Most Flexible, Perfect for Short trip</p>
-                </div>
-
-                <!-- Annual Plan -->
-                <div class="bg-[#FFF8E6] border-2 border-[#FFD700] rounded-[2rem] p-8 flex flex-col justify-center h-full relative shadow-lg transform md:-translate-y-4">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#FFD700] text-black px-4 py-1 rounded-full text-sm font-bold shadow-sm" data-i18n="pricing.best_value">
-                        BEST VALUE
-                    </div>
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <span class="text-5xl font-bold tracking-tight" id="price-annual">$14.99</span>
-                        <span class="text-lg text-gray-600" data-i18n="pricing.annually">/Annually</span>
-                    </div>
-                    <p class="text-gray-500 font-medium" id="price-annual-desc">Best Value, Only $1.25/Month</p>
-                </div>
-
-                <!-- Lifetime Plan (Static for now as per instructions but kept structure) -->
-                <div class="bg-gray-100 rounded-[2rem] p-8 flex flex-col justify-center h-full hover:shadow-lg transition-shadow">
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <span class="text-5xl font-bold tracking-tight">$49.99</span>
-                        <span class="text-lg text-gray-600" data-i18n="pricing.lifetime">/Lifetime</span>
-                    </div>
-                    <p class="text-gray-500 font-medium" data-i18n="pricing.lifetime_desc">Unlock Forever, Pay Once</p>
-                </div>
-            </div>
-
-        <!-- Feature Comparison -->
-        <div class="max-w-4xl mx-auto">
-            <div class="grid grid-cols-12 gap-4 mb-8 px-4 items-center">
-                <div class="col-span-6 md:col-span-8">
-                    <h3 class="text-2xl font-bold text-left" data-i18n="features.title">Feature Compare</h3>
-                </div>
-                <div class="col-span-3 md:col-span-2 text-center text-xl font-bold">
-                    <span data-i18n="features.free">Free</span>
-                </div>
-                <div class="col-span-3 md:col-span-2 text-center">
-                    <span class="inline-flex items-center gap-2 text-xl font-bold">
-                        Offliner <span class="bg-[#FFD700] text-black text-sm px-2 py-0.5 rounded-full">Pro</span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <!-- Feature 1 -->
-                <div class="grid grid-cols-12 gap-4 py-4 border-b border-gray-100 items-center">
-                    <div class="col-span-6 md:col-span-8 text-left">
-                        <span class="font-medium text-lg" data-i18n="features.f1">Unlimited Discovery</span>
-                    </div>
-                    <div class="col-span-3 md:col-span-2 flex justify-center">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-300 fill-gray-100"></i>
-                    </div>
-                    <div class="col-span-3 md:col-span-2 flex justify-center">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-[#1A1A1A] fill-black text-white"></i>
-                    </div>
-                </div>
-                <!-- Feature 2 -->
-                <div class="grid grid-cols-12 gap-4 py-4 border-b border-gray-100 items-center">
-                    <div class="col-span-6 md:col-span-8 text-left">
-                        <span class="font-medium text-lg" data-i18n="features.f2">Unlock Who Likes Me</span>
-                    </div>
-                    <div class="col-span-3 md:col-span-2 flex justify-center">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-300 fill-gray-100"></i>
-                    </div>
-                    <div class="col-span-3 md:col-span-2 flex justify-center">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-[#1A1A1A] fill-black text-white"></i>
-                    </div>
-                </div>
-                <!-- Feature 3 -->
-                <div class="grid grid-cols-12 gap-4 py-4 border-b border-gray-100 items-center">
-                    <div class="col-span-6 md:col-span-8 text-left">
-                        <span class="font-medium text-lg" data-i18n="features.f3">Activity Analytics</span>
-                    </div>
-                    <div class="col-span-3 md:col-span-2 flex justify-center">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-300 fill-gray-100"></i>
-                    </div>
-                    <div class="col-span-3 md:col-span-2 flex justify-center">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-[#1A1A1A] fill-black text-white"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </section>
-        </div>
-
         <!-- FOR HOSTS CONTENT -->
-        <div id="for-hosts-content" class="hidden transition-opacity duration-300">
+        <div id="for-hosts-content" class="transition-opacity duration-300">
             <!-- Hero Section for Hosts -->
             <div class="text-center space-y-8 mb-16">
                 <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-black" data-i18n="hosts.hero_title">
@@ -313,7 +178,7 @@
                 
                 <!-- Central Image -->
                 <div class="flex justify-center my-12">
-                    <img src="assets2/手持app手机.png" alt="Host App View" class="w-full max-w-sm md:max-w-md h-auto object-contain hover:scale-105 transition-transform duration-500">
+                    <img src="../assets2/手持app手机.png" alt="Host App View" class="w-full max-w-sm md:max-w-md h-auto object-contain hover:scale-105 transition-transform duration-500">
                 </div>
 
                 <!-- Four Vertical Sections -->
@@ -388,7 +253,7 @@
         </div>
     </main>
 
-    <script src="Offliner/js/language.js"></script>
+    <script src="../Offliner/js/language.js"></script>
     <script>
         // Auto-detect language by IP
         async function detectLanguage() {
@@ -419,7 +284,6 @@
         const mobileMenu = document.getElementById('mobile-menu');
         const mainNav = document.getElementById('main-nav');
         const mobileLinks = document.querySelectorAll('.mobile-link');
-        const usersContent = document.getElementById('for-users-content');
 
         function openMenu() {
             mainNav.classList.add('hidden');
